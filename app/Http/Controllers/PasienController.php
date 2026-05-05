@@ -7,34 +7,67 @@ use Illuminate\Http\Request;
 
 class PasienController extends Controller
 {
-    // 1. Menampilkan Daftar Pasien
-   public function index()
-{
-    // Gunakan nama variabel $pasiens (dengan huruf s)
-    $pasiens = Pasien::latest()->get();
+    // Tampil Daftar Pasien
+    public function index()
+    {
+        $pasiens = Pasien::latest()->get();
+        return view('pasien.index', compact('pasiens'));
+    }
 
-    // Pastikan dikirim dengan nama yang sama
-    return view('pasien.index', compact('pasiens'));
-}
-
-    // 2. Menampilkan Form Tambah Pasien
+    // Tampil Form Tambah
     public function create()
     {
         return view('pasien.create');
     }
 
-    // 3. Menyimpan Data Pasien Baru
- public function store(Request $request)
+    // Simpan Data Baru
+    public function store(Request $request)
+    {
+        $request->validate([
+            'no_rm'         => 'required|unique:pasiens,no_rm',
+            'nama_pasien'   => 'required',
+            'jenis_kelamin' => 'required',
+            'umur'          => 'required|numeric',
+            'alamat'        => 'required',
+        ]);
+
+        Pasien::create($request->all());
+        return redirect()->route('pasien.index')->with('success', 'Data berhasil disimpan!');
+    }
+
+    // FUNGSI EDIT (Yang Error Tadi): Menampilkan Form Edit
+  public function edit($id)
 {
-    $request->validate([
-        'no_rm' => 'required',
-        'nama_pasien' => 'required',
-        'jenis_kelamin' => 'required',
-        'umur' => 'required|numeric',
-    ]);
+    // Mengambil data pasien berdasarkan ID, jika tidak ada akan muncul error 404
+    $pasien = Pasien::findOrFail($id);
 
-    Pasien::create($request->all());
-
-    return redirect()->route('pasien.index')->with('success', 'Data Berhasil Disimpan');
+    // Pastikan nama view ('pasien.edit') sesuai dengan nama file .blade.php kamu
+    return view('pasien.edit', compact('pasien'));
 }
+
+    // FUNGSI UPDATE: Menyimpan Perubahan Data
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'no_rm'         => 'required',
+            'nama_pasien'   => 'required',
+            'jenis_kelamin' => 'required',
+            'umur'          => 'required|numeric',
+        ]);
+
+        $pasien = Pasien::findOrFail($id);
+        $pasien->update($request->all());
+
+        return redirect()->route('pasien.index')->with('success', 'Data berhasil diperbarui!');
+    }
+
+    // FUNGSI DESTROY: Menghapus Data
+    public function destroy($id)
+    {
+        $pasien = Pasien::findOrFail($id);
+        $pasien->delete();
+
+        return redirect()->route('pasien.index')->with('success', 'Data berhasil dihapus!');
+    }
+
 }

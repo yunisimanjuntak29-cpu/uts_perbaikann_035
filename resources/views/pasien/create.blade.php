@@ -1,43 +1,35 @@
-@extends('layouts.master')
-
-@section('content')
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">Form Pasien</div>
-        <div class="card-body">
-
-            {{-- Pesan Error kalau ada yang belum diisi --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>@foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach</ul>
-                </div>
-            @endif
-
-            <form action="{{ route('pasien.store') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label>No Rekam Medis</label>
-                    <input type="text" name="no_rm" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label>Nama Pasien</label>
-                    <input type="text" name="nama_pasien" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label>Jenis Kelamin</label>
-                    <select name="jenis_kelamin" class="form-control" required>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Umur</label>
-                    <input type="number" name="umur" class="form-control" required>
-                </div>
-
-                <button type="submit" class="btn btn-success">Simpan Data Pasien</button>
-            </form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Pasien</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h2>Tambah Data Pasien</h2>
+    <form action="{{ route('pasien.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label>No RM</label>
+            <input type="text" name="no_rm" class="form-control" required>
         </div>
-    </div>
-</div>
-@endsection
+        <div class="mb-3">
+            <label>Nama Pasien</label>
+            <input type="text" name="nama_pasien" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Jenis Kelamin</label>
+            <select name="jenis_kelamin" class="form-control" required>
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Umur</label>
+            <input type="number" name="umur" class="form-control" required>
+        </div>
+       
+        <button type="submit" class="btn btn-success">Simpan Data</button>
+        <a href="{{ route('pasien.index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
+</body>
+</html>
