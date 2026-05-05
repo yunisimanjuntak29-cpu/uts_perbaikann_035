@@ -1,12 +1,10 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasienController;
+use Illuminate\Support\Facades\Route;
 
-// Langsung arahkan ke halaman daftar pasien
-Route::get('/', function () {
-    return redirect()->route('pasien.index');
-});
 
-// Hapus tanda '/' di depan 'pasien'
+
+
+
+Route::get('/', function () { return redirect('/pasien'); });
 Route::resource('pasien', PasienController::class);
