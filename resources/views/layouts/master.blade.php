@@ -27,9 +27,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Daftar pasien</a>
-                    </li>
+                   <li class="nav-item">
+    <a class="nav-link" href="{{ route('pasien.index') }}">Daftar pasien</a>
+</li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">tentang pasien</a>
                     </li>

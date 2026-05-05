@@ -2,63 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pasien;
 use Illuminate\Http\Request;
 
 class PasienController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Halaman Daftar Pasien (Tampilkan Tabel)
     public function index()
     {
-        //
+        $pasiens = Pasien::all();
+        return view('pasien.index', compact('pasiens'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Halaman Tambah Pasien (Tampilkan Form)
     public function create()
     {
-        //
+        return view('pasien.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Proses Simpan Data (Submit Form)
     public function store(Request $request)
     {
-        //
-    }
+        // Validasi sederhana (opsional tapi disarankan)
+        $request->validate([
+            'no_rekam_medis' => 'required',
+            'nama_pasien' => 'required',
+            'jenis_kelamin' => 'required',
+            'umur' => 'required|integer',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // Simpan ke database menggunakan Mass Assignment
+        Pasien::create($request->all());
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // SETELAH DATA DISIMPAN: Redirect kembali ke halaman Daftar Pasien
+        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan!');
     }
 }
