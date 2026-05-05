@@ -7,34 +7,32 @@ use Illuminate\Http\Request;
 
 class PasienController extends Controller
 {
-    // Halaman Daftar Pasien (Tampilkan Tabel)
+    // 1. Fungsi untuk menampilkan daftar (Sudah diperbaiki tadi)
     public function index()
     {
-        $pasiens = Pasien::all();
-        return view('pasien.index', compact('pasiens'));
+        $pasien = Pasien::latest()->get();
+        return view('pasien.index', compact('pasien'));
     }
 
-    // Halaman Tambah Pasien (Tampilkan Form)
+    // 2. FUNGSI YANG HILANG: Untuk menampilkan halaman form tambah
     public function create()
     {
         return view('pasien.create');
     }
 
-    // Proses Simpan Data (Submit Form)
-    public function store(Request $request)
+    // 3. Fungsi untuk menyimpan data yang dikirim dari form
+
+
+
+    // 4. Fungsi untuk menghapus data
+    public function destroy(Pasien $pasien)
     {
-        // Validasi sederhana (opsional tapi disarankan)
-        $request->validate([
-            'no_rekam_medis' => 'required',
-            'nama_pasien' => 'required',
-            'jenis_kelamin' => 'required',
-            'umur' => 'required|integer',
-        ]);
-
-        // Simpan ke database menggunakan Mass Assignment
-        Pasien::create($request->all());
-
-        // SETELAH DATA DISIMPAN: Redirect kembali ke halaman Daftar Pasien
-        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan!');
+        $pasien->delete();
+        return redirect()->route('pasien.index')->with('success', 'Pasien berhasil dihapus!');
     }
+   public function store(Request $request)
+{
+    // HAPUS SEMUA ISI STORE SEMENTARA, GANTI JADI INI:
+    dd($request->all());
+}
 }

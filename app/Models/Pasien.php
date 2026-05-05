@@ -2,17 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pasien extends Model
 {
-    use HasFactory;
-
-    // Nama tabel di database
-    protected $table = 'pasiens';
-
-    // Mass Assignment sesuai instruksi nomor 2
+    // Tambahkan baris fillable ini agar Laravel mengizinkan data disimpan
     protected $fillable = [
         'no_rekam_medis',
         'nama_pasien',
